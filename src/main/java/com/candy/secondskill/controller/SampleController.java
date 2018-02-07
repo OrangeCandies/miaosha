@@ -2,6 +2,7 @@ package com.candy.secondskill.controller;
 
 import com.candy.secondskill.domain.User;
 import com.candy.secondskill.redis.RedisServer;
+import com.candy.secondskill.redis.UserKey;
 import com.candy.secondskill.result.Result;
 import com.candy.secondskill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,14 @@ public class SampleController {
     @RequestMapping("/redis/get")
     @ResponseBody
     public Result<String> redisGet(){
-        String s = redisServer.get("a",String.class);
+        String s = redisServer.get(UserKey.getById,"a",String.class);
+        return Result.success(s);
+    }
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<String> redisSet(){
+        redisServer.set(UserKey.getById,"hello","LoveChange");
+        String s = redisServer.get(UserKey.getById,"hello",String.class);
         return Result.success(s);
     }
 
