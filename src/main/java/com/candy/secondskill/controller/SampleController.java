@@ -1,6 +1,7 @@
 package com.candy.secondskill.controller;
 
 import com.candy.secondskill.domain.User;
+import com.candy.secondskill.redis.RedisServer;
 import com.candy.secondskill.result.Result;
 import com.candy.secondskill.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ public class SampleController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RedisServer redisServer;
+
     @RequestMapping("/thymeleaf")
     public String thymeleaf(Model model){
         model.addAttribute("name","liuhui");
@@ -28,13 +32,13 @@ public class SampleController {
         User user = userService.getById(2);
         return Result.success(user);
     }
-
-    @RequestMapping("db/tx")
+    @RequestMapping("/redis/get")
     @ResponseBody
-    public Result<Boolean> doTx(){
-       boolean b =  userService.tx();
-       return Result.success(b);
+    public Result<String> redisGet(){
+        String s = redisServer.get("a",String.class);
+        return Result.success(s);
     }
+
 }
 
 
