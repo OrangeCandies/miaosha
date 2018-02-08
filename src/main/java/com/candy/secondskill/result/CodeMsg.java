@@ -32,6 +32,13 @@ public class CodeMsg {
         return message;
     }
 
+    public CodeMsg fillArgs(Object... args) {
+        int code = this.code;
+        String message = String.format(this.message, args);
+        return new CodeMsg(code, message);
+    }
+
+
     public void setMessage(String message) {
         this.message = message;
     }
